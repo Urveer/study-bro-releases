@@ -346,19 +346,31 @@
 
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.6rem;
+      font-size: clamp(1.75rem, 4.5vw + 0.2rem, 2.7rem);
       font-weight: 700;
       line-height: 1.15;
       margin-bottom: 12px;
       letter-spacing: -0.03em;
+      text-wrap: balance;
     }
 
     .hero-desc {
-      font-size: 1.05rem;
+      font-size: clamp(0.92rem, 1.8vw + 0.2rem, 1.05rem);
       color: var(--text-secondary);
       max-width: 580px;
       margin-bottom: 32px;
       line-height: 1.55;
+      text-wrap: pretty;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.86em;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-main);
+      word-break: break-word;
     }
 
     /* Wide Elegant Download Card */
@@ -460,14 +472,6 @@
     @keyframes btnShimmer {
       0%, 75% { left: -120%; }
       100% { left: 180%; }
-    }
-      color: var(--accent-text);
-      text-decoration: none;
-      border-radius: var(--radius-md);
-      font-size: 0.94rem;
-      font-weight: 600;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-      white-space: nowrap;
     }
 
     html.pastel .primary-cta-btn {
@@ -775,10 +779,6 @@
       margin-bottom: 12px;
     }
 
-    @media (max-width: 600px) {
-      .form-grid { grid-template-columns: 1fr; }
-    }
-
     .form-group {
       display: flex;
       flex-direction: column;
@@ -865,14 +865,353 @@
       text-decoration: underline;
     }
 
+    /* ==========================================================================
+       Comprehensive Responsive Breakpoints (Mobile, Tablet, Desktop, Ultrawide)
+       ========================================================================== */
+
+    /* Tablet & Medium Screens (<= 768px) */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
+      }
+
+      .guides-section,
+      .feedback-section {
+        padding: 24px 22px;
+      }
+
+      .download-card-wide {
+        padding: 22px 22px;
+      }
+    }
+
+    /* Standard Mobile Phones (<= 640px) */
     @media (max-width: 640px) {
-      .hero-title { font-size: 2.1rem; }
-      .download-card-wide { padding: 18px 16px; }
-      .download-primary-row { flex-direction: column; align-items: stretch; }
-      .primary-cta-btn { justify-content: center; width: 100%; }
-      .roadmap-flow { padding-left: 28px; margin-left: 4px; }
-      .roadmap-pin { left: -28px; width: 22px; height: 22px; font-size: 0.68rem; }
-      .roadmap-flow::before { left: 10px; }
+      .container {
+        padding: 0 16px;
+      }
+
+      header {
+        padding: 16px 0 14px;
+        gap: 10px;
+      }
+
+      .brand-title {
+        font-size: 1.05rem;
+      }
+
+      .brand svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      .theme-btn {
+        padding: 5px 8px;
+        gap: 4px;
+        font-size: 0.72rem;
+      }
+
+      .theme-btn svg {
+        width: 12px;
+        height: 12px;
+      }
+
+      .hero {
+        padding: 28px 0 18px;
+      }
+
+      .version-tag {
+        padding: 3px 10px;
+        font-size: 0.7rem;
+        margin-bottom: 14px;
+      }
+
+      .hero-desc {
+        margin-bottom: 24px;
+      }
+
+      /* Download Card Mobile */
+      .download-card-wide {
+        padding: 18px 16px;
+        margin-bottom: 32px;
+        border-radius: var(--radius-md);
+      }
+
+      .download-primary-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+
+      .download-info {
+        text-align: left;
+      }
+
+      .primary-cta-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: 0.94rem;
+      }
+
+      .download-secondary-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-top: 12px;
+      }
+
+      .download-secondary-strip > span {
+        font-size: 0.76rem;
+      }
+
+      .other-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+      }
+
+      .pill-link {
+        flex: 1 1 calc(33.333% - 6px);
+        min-width: 86px;
+        justify-content: center;
+        font-size: 0.74rem;
+        padding: 7px 6px;
+        text-align: center;
+      }
+
+      /* Installation Guides Mobile */
+      .guides-section {
+        padding: 20px 16px;
+        margin-bottom: 32px;
+        border-radius: var(--radius-md);
+      }
+
+      .section-header {
+        margin-bottom: 18px;
+      }
+
+      .section-title {
+        font-size: 1.18rem;
+      }
+
+      .section-subtitle {
+        font-size: 0.8rem;
+        line-height: 1.45;
+      }
+
+      .guide-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+
+      .guide-tab-btn {
+        justify-content: center;
+        padding: 7px 4px;
+        font-size: 0.78rem;
+        text-align: center;
+      }
+
+      /* Roadmap Timeline Mobile */
+      .roadmap-flow {
+        padding-left: 32px;
+        margin: 6px 0 0 2px;
+      }
+
+      .roadmap-flow::before {
+        left: 11px;
+      }
+
+      .roadmap-pin {
+        left: -32px;
+        width: 22px;
+        height: 22px;
+        font-size: 0.68rem;
+      }
+
+      .roadmap-step {
+        padding-bottom: 20px;
+      }
+
+      .roadmap-title {
+        font-size: 0.88rem;
+      }
+
+      .step-badge {
+        font-size: 0.65rem;
+      }
+
+      .roadmap-desc {
+        font-size: 0.8rem;
+        line-height: 1.45;
+      }
+
+      /* Mockup Windows Mobile */
+      .os-dialog-mockup {
+        margin-top: 6px;
+      }
+
+      .os-dialog-titlebar {
+        padding: 5px 8px;
+        font-size: 0.68rem;
+      }
+
+      .os-dialog-body {
+        padding: 10px 12px;
+        gap: 8px;
+        font-size: 0.75rem;
+      }
+
+      .os-dialog-actions {
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .os-btn-secondary,
+      .os-btn-primary {
+        padding: 5px 10px;
+        font-size: 0.72rem;
+      }
+
+      .os-note-box {
+        margin-top: 16px;
+        padding: 10px 12px;
+        font-size: 0.76rem;
+        gap: 6px;
+      }
+
+      /* Feedback Form Mobile */
+      .feedback-section {
+        padding: 20px 16px;
+        margin-bottom: 32px;
+        border-radius: var(--radius-md);
+      }
+
+      .feedback-title {
+        font-size: 1.15rem;
+      }
+
+      .feedback-subtitle {
+        font-size: 0.8rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 10px;
+      }
+
+      /* 16px font-size prevents iOS Safari auto-zoom on input focus */
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        font-size: 16px;
+        padding: 9px 10px;
+      }
+
+      .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .feedback-submit-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 18px;
+        font-size: 0.88rem;
+      }
+
+      .feedback-status {
+        text-align: center;
+        font-size: 0.76rem;
+      }
+
+      /* Aurora Optimization Mobile */
+      .aurora-container {
+        height: 480px;
+      }
+
+      .aurora-orb-1 {
+        width: 360px;
+        height: 360px;
+        filter: blur(35px);
+        top: -100px;
+      }
+
+      .aurora-orb-2 {
+        width: 320px;
+        height: 320px;
+        filter: blur(40px);
+        top: -80px;
+      }
+
+      .aurora-orb-3 {
+        width: 260px;
+        height: 260px;
+        filter: blur(45px);
+        top: 50px;
+      }
+
+      footer {
+        padding: 20px 0 32px;
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Small / Ultra-Narrow Phones (<= 400px) */
+    @media (max-width: 400px) {
+      .container {
+        padding: 0 12px;
+      }
+
+      header {
+        padding: 14px 0 10px;
+      }
+
+      .brand-title {
+        font-size: 0.95rem;
+      }
+
+      .theme-btn {
+        padding: 4px 6px;
+        font-size: 0.7rem;
+        gap: 3px;
+      }
+
+      .download-card-wide,
+      .guides-section,
+      .feedback-section {
+        padding: 15px 12px;
+      }
+
+      .pill-link {
+        flex: 1 1 100%;
+        min-width: 100%;
+      }
+
+      .roadmap-flow {
+        padding-left: 28px;
+      }
+
+      .roadmap-flow::before {
+        left: 9px;
+      }
+
+      .roadmap-pin {
+        left: -28px;
+        width: 19px;
+        height: 19px;
+        font-size: 0.62rem;
+      }
     }
   </style>
 </head>
