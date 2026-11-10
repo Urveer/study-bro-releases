@@ -26,6 +26,7 @@
       --accent-text: #ffffff;
       --accent-gradient: #0f172a;
       --pill-bg: #f1f5f9;
+      --header-bg: rgba(248, 250, 252, 0.88);
       --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
       --card-shadow-hover: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
       --glow-primary: rgba(56, 189, 248, 0.35);
@@ -53,6 +54,7 @@
       --accent-text: #090a0f;
       --accent-gradient: #f8fafc;
       --pill-bg: rgba(255, 255, 255, 0.05);
+      --header-bg: rgba(9, 10, 15, 0.88);
       --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
       --card-shadow-hover: 0 4px 14px -2px rgba(0, 0, 0, 0.6);
       --glow-primary: rgba(99, 102, 241, 0.52);
@@ -78,6 +80,7 @@
       --accent-text: #ffffff;
       --accent-gradient: linear-gradient(135deg, #185834 0%, #185d94 100%);
       --pill-bg: #cfe3d7;
+      --header-bg: rgba(184, 214, 199, 0.92);
       --card-shadow: 0 2px 6px -1px rgba(24, 88, 52, 0.08);
       --card-shadow-hover: 0 4px 12px -2px rgba(24, 88, 52, 0.14);
       --glow-primary: rgba(24, 93, 148, 0.62);
@@ -215,14 +218,20 @@
       padding: 0 24px;
     }
 
-    /* Top Navigation */
+    /* Top Navigation (Glassmorphic Header) */
     header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
       width: 100%;
-      padding: 24px 0 16px;
+      padding: 16px 0 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--border-main);
+      background: var(--header-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .brand {
@@ -358,9 +367,52 @@
       font-size: clamp(0.92rem, 1.8vw + 0.2rem, 1.05rem);
       color: var(--text-secondary);
       max-width: 580px;
-      margin-bottom: 32px;
+      margin-bottom: 22px;
       line-height: 1.55;
       text-wrap: pretty;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    html.dark .hero-highlight {
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    html.pastel .hero-highlight {
+      background: linear-gradient(135deg, #185834 0%, #185d94 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 13px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+    .hero-chip:hover {
+      border-color: var(--text-secondary);
+      transform: translateY(-1px);
     }
 
     code {
@@ -524,6 +576,31 @@
     .pill-link:hover {
       border-color: var(--text-secondary);
       color: var(--text-primary);
+    }
+
+    .pill-link:active {
+      transform: scale(0.97);
+    }
+
+    .pill-link.active-pill {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: var(--accent);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    html.pastel .pill-link.active-pill {
+      background: var(--accent-gradient);
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    .copy-link-btn {
+      background: var(--bg-surface);
+      border: 1px dashed var(--border-main);
+    }
+    .copy-link-btn:hover {
+      border-color: var(--accent);
     }
 
     /* Installation Guide Section */
@@ -905,15 +982,19 @@
         height: 26px;
       }
 
+      .theme-btn span {
+        display: none;
+      }
+
       .theme-btn {
-        padding: 5px 8px;
-        gap: 4px;
-        font-size: 0.72rem;
+        padding: 6px 9px;
+        min-width: 32px;
+        min-height: 32px;
       }
 
       .theme-btn svg {
-        width: 12px;
-        height: 12px;
+        width: 14px;
+        height: 14px;
       }
 
       .hero {
@@ -1015,38 +1096,66 @@
         text-align: center;
       }
 
-      /* Roadmap Timeline Mobile */
+      /* Roadmap Mobile -> Native Modern Step Cards */
       .roadmap-flow {
-        padding-left: 32px;
-        margin: 6px 0 0 2px;
+        padding-left: 0;
+        margin: 0;
       }
 
       .roadmap-flow::before {
-        left: 11px;
-      }
-
-      .roadmap-pin {
-        left: -32px;
-        width: 22px;
-        height: 22px;
-        font-size: 0.68rem;
+        display: none;
       }
 
       .roadmap-step {
-        padding-bottom: 20px;
+        background: var(--bg-surface-subtle);
+        border: 1px solid var(--border-main);
+        border-radius: 14px;
+        padding: 16px 14px;
+        margin-bottom: 14px;
+        position: static;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      }
+
+      .roadmap-step:last-child {
+        margin-bottom: 0;
+      }
+
+      .roadmap-pin {
+        position: static;
+        display: inline-flex;
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        background: var(--bg-surface);
+        border: 1.5px solid var(--border-main);
+        font-size: 0.74rem;
+        font-weight: 800;
+        color: var(--accent);
+        margin-right: 8px;
+        flex-shrink: 0;
+      }
+
+      .roadmap-title-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
       }
 
       .roadmap-title {
-        font-size: 0.88rem;
+        font-size: 0.94rem;
+        font-weight: 700;
       }
 
       .step-badge {
-        font-size: 0.65rem;
+        font-size: 0.68rem;
       }
 
       .roadmap-desc {
-        font-size: 0.8rem;
-        line-height: 1.45;
+        font-size: 0.82rem;
+        line-height: 1.5;
+        margin-bottom: 6px;
       }
 
       /* Mockup Windows Mobile */
@@ -1267,10 +1376,16 @@
         <span id="version-text">v2.0.0 • Native Desktop &amp; Mobile</span>
       </div>
 
-      <h1 class="hero-title">Personal AI &amp; JEE Advanced Study Copilot</h1>
+      <h1 class="hero-title">Personal AI &amp; JEE Advanced <span class="hero-highlight">Study Copilot</span></h1>
       <p class="hero-desc">
         A fast, distraction-free study environment. Authentic JEE question archives, test analytics, timetable rollover, and offline-first performance built for Windows, Mac, and Android.
       </p>
+
+      <div class="hero-chips">
+        <span class="hero-chip">⚡ 100% Offline-First</span>
+        <span class="hero-chip">📚 15+ Yrs JEE Archives</span>
+        <span class="hero-chip">🔄 Smart Schedule Rollover</span>
+      </div>
 
       <!-- Wider Elegant Download Card -->
       <div class="download-card-wide">
@@ -1294,18 +1409,22 @@
         <div class="download-secondary-strip">
           <span>Other platforms:</span>
           <div class="other-pills">
-            <a id="win-dl-link" href="#" class="pill-link">
+            <button type="button" class="pill-link" id="pill-btn-win" onclick="selectPlatform('windows')">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.799"/></svg>
               Windows (.exe)
-            </a>
-            <a id="mac-dl-link" href="#" class="pill-link">
+            </button>
+            <button type="button" class="pill-link" id="pill-btn-mac" onclick="selectPlatform('mac')">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.66-.82 1.11-1.96.99-3.1-.96.04-2.11.64-2.79 1.45-.59.69-1.12 1.83-.98 2.93 1.07.08 2.15-.55 2.78-1.28z"/></svg>
               macOS (.dmg)
-            </a>
-            <a id="android-dl-link" href="#" class="pill-link">
+            </button>
+            <button type="button" class="pill-link" id="pill-btn-android" onclick="selectPlatform('android')">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8533 8.084 12 8.084s-3.5902.327-5.1368.8657L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
               Android (.apk)
-            </a>
+            </button>
+            <button type="button" class="pill-link copy-link-btn" id="copy-btn" onclick="copyReleaseLink()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span id="copy-btn-text">Copy link for PC</span>
+            </button>
           </div>
         </div>
       </div>
@@ -1320,9 +1439,18 @@
 
       <!-- Guide Tabs -->
       <div class="guide-tabs">
-        <button class="guide-tab-btn active" id="tab-btn-win" onclick="switchGuide('win')">Windows</button>
-        <button class="guide-tab-btn" id="tab-btn-mac" onclick="switchGuide('mac')">macOS</button>
-        <button class="guide-tab-btn" id="tab-btn-android" onclick="switchGuide('android')">Android</button>
+        <button class="guide-tab-btn active" id="tab-btn-win" onclick="switchGuide('win')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.799"/></svg>
+          <span>Windows</span>
+        </button>
+        <button class="guide-tab-btn" id="tab-btn-mac" onclick="switchGuide('mac')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.66-.82 1.11-1.96.99-3.1-.96.04-2.11.64-2.79 1.45-.59.69-1.12 1.83-.98 2.93 1.07.08 2.15-.55 2.78-1.28z"/></svg>
+          <span>macOS</span>
+        </button>
+        <button class="guide-tab-btn" id="tab-btn-android" onclick="switchGuide('android')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8533 8.084 12 8.084s-3.5902.327-5.1368.8657L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
+          <span>Android</span>
+        </button>
       </div>
 
       <!-- Windows Roadmap Content -->
@@ -1552,32 +1680,33 @@
           <div class="form-group">
             <label for="fb-category">Category</label>
             <select id="fb-category">
-              <option value="feedback">General Feedback</option>
-              <option value="feature">Feature Request</option>
-              <option value="bug">Bug Report</option>
-              <option value="question">Question</option>
+              <option value="feedback">💡 General Feedback</option>
+              <option value="feature">✨ Feature Request</option>
+              <option value="bug">🐛 Bug Report</option>
+              <option value="question">❓ Question</option>
             </select>
           </div>
           <div class="form-group">
             <label for="fb-platform">Platform</label>
             <select id="fb-platform">
-              <option value="windows">Windows PC</option>
-              <option value="mac">macOS</option>
-              <option value="android">Android</option>
-              <option value="general">General</option>
+              <option value="windows">🪟 Windows PC</option>
+              <option value="mac">🍎 macOS</option>
+              <option value="android">🤖 Android</option>
+              <option value="general">🌐 General / Other</option>
             </select>
           </div>
         </div>
 
         <div class="form-group">
           <label for="fb-message">Message</label>
-          <textarea id="fb-message" rows="3" required placeholder="What could be improved? Any issues or feature ideas?"></textarea>
+          <textarea id="fb-message" rows="3" required placeholder="What could be improved? Any bugs, thoughts or JEE features you'd like?"></textarea>
         </div>
 
         <div class="form-actions">
           <div id="feedback-status" class="feedback-status"></div>
           <button type="submit" id="fb-submit-btn" class="feedback-submit-btn">
-            <span>Send Feedback</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            <span>Send to Urveer's Dashboard</span>
           </button>
         </div>
       </form>
@@ -1616,63 +1745,138 @@
       }
     }
 
+    // Dynamic OS Auto-Detection & Platform State
+    let currentReleaseAssets = { version: 'v2.0.0', exe: null, dmg: null, apk: null, releaseUrl: 'https://github.com/Urveer/study-bro-releases/releases' };
+    let currentSelectedPlatform = 'windows';
+
+    const osPlatformData = {
+      windows: {
+        name: 'Download for Windows PC',
+        sub: '64-bit installer • Verified native binary',
+        btnText: 'Download for Windows',
+        icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.799"/></svg>'
+      },
+      mac: {
+        name: 'Download for macOS',
+        sub: 'Apple Silicon & Intel • Universal .dmg',
+        btnText: 'Download for Mac',
+        icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.66-.82 1.11-1.96.99-3.1-.96.04-2.11.64-2.79 1.45-.59.69-1.12 1.83-.98 2.93 1.07.08 2.15-.55 2.78-1.28z"/></svg>'
+      },
+      android: {
+        name: 'Download for Android',
+        sub: 'Direct signed package • Universal .apk',
+        btnText: 'Download Android APK',
+        icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8533 8.084 12 8.084s-3.5902.327-5.1368.8657L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>'
+      },
+      ios: {
+        name: 'Get Study Bro for PC or Mac',
+        sub: 'Visiting on iPhone? Copy the download link to open on your computer:',
+        btnText: 'Copy PC Download Link',
+        icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>'
+      }
+    };
+
+    function selectPlatform(platform) {
+      currentSelectedPlatform = platform;
+      const data = osPlatformData[platform] || osPlatformData.windows;
+      
+      document.getElementById('os-icon').innerHTML = data.icon;
+      document.getElementById('os-name-title').innerText = data.name;
+      document.getElementById('detected-os-text').innerText = data.sub;
+
+      const primaryBtn = document.getElementById('primary-dl-btn');
+      const primaryText = document.getElementById('primary-btn-text');
+
+      if (platform === 'windows') {
+        primaryBtn.href = currentReleaseAssets.exe || currentReleaseAssets.releaseUrl;
+        primaryBtn.onclick = null;
+        primaryText.innerText = data.btnText + ' (' + currentReleaseAssets.version + ')';
+        switchGuide('win');
+      } else if (platform === 'mac') {
+        primaryBtn.href = currentReleaseAssets.dmg || currentReleaseAssets.releaseUrl;
+        primaryBtn.onclick = null;
+        primaryText.innerText = data.btnText + ' (' + currentReleaseAssets.version + ')';
+        switchGuide('mac');
+      } else if (platform === 'android') {
+        primaryBtn.href = currentReleaseAssets.apk || currentReleaseAssets.releaseUrl;
+        primaryBtn.onclick = null;
+        primaryText.innerText = data.btnText + ' (' + currentReleaseAssets.version + ')';
+        switchGuide('android');
+      } else if (platform === 'ios') {
+        primaryBtn.href = '#';
+        primaryBtn.onclick = (e) => { e.preventDefault(); copyReleaseLink(); };
+        primaryText.innerText = '📋 Copy PC Download Link';
+        switchGuide('win');
+      }
+
+      // Highlight active pill
+      document.querySelectorAll('.other-pills .pill-link').forEach(p => p.classList.remove('active-pill'));
+      const activePill = document.getElementById('pill-btn-' + (platform === 'windows' ? 'win' : platform));
+      if (activePill) activePill.classList.add('active-pill');
+    }
+
+    function copyReleaseLink() {
+      const url = 'https://urveer.github.io/study-bro-releases/';
+      navigator.clipboard.writeText(url).then(() => {
+        const btnText = document.getElementById('copy-btn-text');
+        const primaryText = document.getElementById('primary-btn-text');
+        if (btnText) btnText.innerText = '✔ Copied!';
+        if (currentSelectedPlatform === 'ios' && primaryText) primaryText.innerText = '✔ Link Copied to Clipboard!';
+        setTimeout(() => {
+          if (btnText) btnText.innerText = 'Copy link for PC';
+          if (currentSelectedPlatform === 'ios' && primaryText) primaryText.innerText = '📋 Copy PC Download Link';
+        }, 3000);
+      }).catch(() => {
+        prompt('Copy the Study Bro download link for your PC:', 'https://urveer.github.io/study-bro-releases/');
+      });
+    }
+
     // Dynamic OS Auto-Detection & GitHub Release Fetcher
     async function initReleaseData() {
       const userAgent = navigator.userAgent || '';
       const platform = navigator.platform || '';
 
-      let os = 'windows';
-      if (/Android/i.test(userAgent)) os = 'android';
-      else if (/Macintosh|Mac OS|MacIntel/i.test(userAgent) || /Mac/i.test(platform)) os = 'mac';
-      else if (/Windows/i.test(userAgent)) os = 'windows';
-
-      switchGuide(os === 'mac' ? 'mac' : os === 'android' ? 'android' : 'win');
-
-      const osData = {
-        windows: { name: 'Download for Windows PC', sub: '64-bit installer • Verified native binary' },
-        mac: { name: 'Download for macOS', sub: 'Apple Silicon & Intel • Universal .dmg' },
-        android: { name: 'Download for Android', sub: 'Direct signed package • Universal .apk' }
-      };
-
-      document.getElementById('os-name-title').innerText = osData[os].name;
-      document.getElementById('detected-os-text').innerText = osData[os].sub;
-
-      const primaryBtn = document.getElementById('primary-dl-btn');
-      const primaryText = document.getElementById('primary-btn-text');
+      let detectedOS = 'windows';
+      const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+      if (/Android/i.test(userAgent)) detectedOS = 'android';
+      else if (isIOS) detectedOS = 'ios';
+      else if (/Macintosh|Mac OS|MacIntel/i.test(userAgent) || /Mac/i.test(platform)) detectedOS = 'mac';
+      else if (/Windows/i.test(userAgent)) detectedOS = 'windows';
 
       try {
         const res = await fetch('https://api.github.com/repos/Urveer/study-bro-releases/releases/latest');
         if (res.ok) {
           const data = await res.json();
-          const version = data.tag_name || 'v2.0.0';
-          document.getElementById('version-text').innerText = version + ' • Production Release';
+          currentReleaseAssets.version = data.tag_name || 'v2.0.0';
+          currentReleaseAssets.releaseUrl = data.html_url || 'https://github.com/Urveer/study-bro-releases/releases';
+          document.getElementById('version-text').innerText = currentReleaseAssets.version + ' • Production Release';
 
           const assets = data.assets || [];
           const exeAsset = assets.find(a => a.name.endsWith('.exe'));
           const dmgAsset = assets.find(a => a.name.endsWith('.dmg'));
           const apkAsset = assets.find(a => a.name.endsWith('.apk'));
 
-          if (exeAsset) document.getElementById('win-dl-link').href = exeAsset.browser_download_url;
-          if (dmgAsset) document.getElementById('mac-dl-link').href = dmgAsset.browser_download_url;
-          if (apkAsset) document.getElementById('android-dl-link').href = apkAsset.browser_download_url;
-
-          if (os === 'windows' && exeAsset) {
-            primaryBtn.href = exeAsset.browser_download_url;
-            primaryText.innerText = 'Download ' + version;
-          } else if (os === 'mac' && dmgAsset) {
-            primaryBtn.href = dmgAsset.browser_download_url;
-            primaryText.innerText = 'Download ' + version;
-          } else if (os === 'android' && apkAsset) {
-            primaryBtn.href = apkAsset.browser_download_url;
-            primaryText.innerText = 'Download ' + version;
-          } else {
-            primaryBtn.href = data.html_url;
-            primaryText.innerText = 'Download ' + version;
+          if (exeAsset) {
+            currentReleaseAssets.exe = exeAsset.browser_download_url;
+            const winLink = document.getElementById('win-dl-link');
+            if (winLink) winLink.href = exeAsset.browser_download_url;
+          }
+          if (dmgAsset) {
+            currentReleaseAssets.dmg = dmgAsset.browser_download_url;
+            const macLink = document.getElementById('mac-dl-link');
+            if (macLink) macLink.href = dmgAsset.browser_download_url;
+          }
+          if (apkAsset) {
+            currentReleaseAssets.apk = apkAsset.browser_download_url;
+            const androidLink = document.getElementById('android-dl-link');
+            if (androidLink) androidLink.href = apkAsset.browser_download_url;
           }
         }
       } catch (e) {
         // Fallback default
       }
+
+      selectPlatform(detectedOS);
     }
 
     initReleaseData();
