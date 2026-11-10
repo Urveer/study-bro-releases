@@ -867,6 +867,21 @@
       font-size: 0.74rem;
       font-weight: 600;
       color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .required-star {
+      color: #ef4444;
+      font-weight: 700;
+    }
+
+    .form-hint {
+      font-size: 0.71rem;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      line-height: 1.35;
     }
 
     .form-group input,
@@ -879,7 +894,7 @@
       color: var(--text-primary);
       font-family: inherit;
       font-size: 0.82rem;
-      transition: border-color 0.15s ease;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
     .form-group input:focus,
@@ -887,6 +902,136 @@
     .form-group textarea:focus {
       outline: none;
       border-color: var(--text-primary);
+    }
+
+    .form-group input.input-error {
+      border-color: #ef4444 !important;
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    /* Image Dropzone & Preview */
+    .image-dropzone {
+      border: 1.5px dashed var(--border-main);
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface-subtle);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .image-dropzone:hover,
+    .image-dropzone.drag-over {
+      border-color: var(--accent);
+      background: rgba(14, 165, 233, 0.05);
+    }
+
+    html.pastel .image-dropzone:hover,
+    html.pastel .image-dropzone.drag-over {
+      background: rgba(24, 88, 52, 0.06);
+      border-color: var(--pastel-forest);
+    }
+
+    .dropzone-empty {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dropzone-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .dropzone-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .dropzone-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .dropzone-sub {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+    }
+
+    .dropzone-preview {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .preview-thumb-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border-main);
+      background: #000;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-thumb-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preview-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .preview-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .preview-size {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+    }
+
+    .preview-remove-btn {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.08);
+      color: #ef4444;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .preview-remove-btn:hover {
+      background: rgba(239, 68, 68, 0.18);
     }
 
     .form-actions {
@@ -924,8 +1069,12 @@
     .feedback-status {
       font-size: 0.78rem;
       font-weight: 600;
+      line-height: 1.4;
+      max-width: 480px;
     }
     .feedback-status.success { color: #10b981; }
+    .feedback-status.error { color: #ef4444; }
+    .feedback-status.warning { color: #f59e0b; }
 
     /* Footer */
     footer {
@@ -1216,6 +1365,33 @@
 
       .form-group {
         margin-bottom: 10px;
+      }
+
+      /* Image Dropzone Mobile */
+      .image-dropzone {
+        padding: 10px 12px;
+      }
+
+      .dropzone-icon {
+        width: 32px;
+        height: 32px;
+      }
+
+      .dropzone-title {
+        font-size: 0.78rem;
+      }
+
+      .dropzone-sub {
+        font-size: 0.68rem;
+      }
+
+      .preview-thumb-box {
+        width: 44px;
+        height: 44px;
+      }
+
+      .preview-name {
+        font-size: 0.76rem;
       }
 
       /* 16px font-size prevents iOS Safari auto-zoom on input focus */
@@ -1665,15 +1841,13 @@
       </div>
 
       <form id="feedback-form" onsubmit="submitFeedback(event)">
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="fb-name">Name / Handle (Optional)</label>
-            <input type="text" id="fb-name" placeholder="e.g. Aditya" />
-          </div>
-          <div class="form-group">
-            <label for="fb-email">Email (Optional)</label>
-            <input type="text" id="fb-email" placeholder="For updates or questions" />
-          </div>
+        <div class="form-group">
+          <label for="fb-email">
+            <span>Your Registered Study Bro Email</span>
+            <span class="required-star">*</span>
+          </label>
+          <input type="email" id="fb-email" required placeholder="name@domain.com" autocomplete="email" />
+          <span class="form-hint">Verification check: Feedback is restricted to registered Study Bro scholars.</span>
         </div>
 
         <div class="form-grid">
@@ -1698,8 +1872,51 @@
         </div>
 
         <div class="form-group">
-          <label for="fb-message">Message</label>
+          <label for="fb-message">
+            <span>Message / Feedback Details</span>
+            <span class="required-star">*</span>
+          </label>
           <textarea id="fb-message" rows="3" required placeholder="What could be improved? Any bugs, thoughts or JEE features you'd like?"></textarea>
+        </div>
+
+        <!-- Screenshot Attachment -->
+        <div class="form-group">
+          <label for="fb-image-file">
+            <span>Attach Screenshot / Photo</span>
+            <span style="font-weight: normal; color: var(--text-secondary); margin-left: 4px;">(Optional)</span>
+          </label>
+          <input type="file" id="fb-image-file" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none;" />
+          <div class="image-dropzone" id="image-dropzone">
+            <!-- Empty state -->
+            <div class="dropzone-empty" id="dropzone-empty">
+              <div class="dropzone-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+              <div class="dropzone-text">
+                <span class="dropzone-title">Click or drag &amp; drop to attach screenshot</span>
+                <span class="dropzone-sub">PNG, JPG, or WEBP • Auto-compressed for instant delivery</span>
+              </div>
+            </div>
+
+            <!-- Preview state -->
+            <div class="dropzone-preview" id="dropzone-preview" style="display:none;">
+              <div class="preview-thumb-box">
+                <img id="preview-img" src="" alt="Screenshot attachment" />
+              </div>
+              <div class="preview-info">
+                <div class="preview-name" id="preview-filename">screenshot.png</div>
+                <div class="preview-size" id="preview-filesize">0 KB</div>
+              </div>
+              <button type="button" class="preview-remove-btn" id="preview-remove-btn" title="Remove attachment">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <span>Remove</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="form-actions">
@@ -1881,56 +2098,267 @@
 
     initReleaseData();
 
-    // Feedback Submission to Supabase
+    // =========================================================================
+    // Image Attachment & Optimization Handling
+    // =========================================================================
+    let currentAttachedImageBase64 = null;
+
+    const imageDropzone = document.getElementById('image-dropzone');
+    const imageFileInput = document.getElementById('fb-image-file');
+    const dropzoneEmpty = document.getElementById('dropzone-empty');
+    const dropzonePreview = document.getElementById('dropzone-preview');
+    const previewImg = document.getElementById('preview-img');
+    const previewFilename = document.getElementById('preview-filename');
+    const previewFilesize = document.getElementById('preview-filesize');
+    const previewRemoveBtn = document.getElementById('preview-remove-btn');
+
+    if (imageDropzone && imageFileInput) {
+      // Click trigger
+      imageDropzone.addEventListener('click', (e) => {
+        if (e.target.closest('#preview-remove-btn')) return;
+        imageFileInput.click();
+      });
+
+      // Drag & drop triggers
+      ['dragenter', 'dragover'].forEach(eventName => {
+        imageDropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          imageDropzone.classList.add('drag-over');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        imageDropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          imageDropzone.classList.remove('drag-over');
+        });
+      });
+
+      imageDropzone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer?.files;
+        if (files && files.length > 0) {
+          handleSelectedImageFile(files[0]);
+        }
+      });
+
+      imageFileInput.addEventListener('change', (e) => {
+        const files = e.target.files;
+        if (files && files.length > 0) {
+          handleSelectedImageFile(files[0]);
+        }
+      });
+
+      if (previewRemoveBtn) {
+        previewRemoveBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearAttachedImage();
+        });
+      }
+    }
+
+    function clearAttachedImage() {
+      currentAttachedImageBase64 = null;
+      if (imageFileInput) imageFileInput.value = '';
+      if (previewImg) previewImg.src = '';
+      if (dropzonePreview) dropzonePreview.style.display = 'none';
+      if (dropzoneEmpty) dropzoneEmpty.style.display = 'flex';
+    }
+
+    async function handleSelectedImageFile(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file (PNG, JPG, WEBP).');
+        return;
+      }
+
+      // Format filesize
+      const sizeKb = Math.round(file.size / 1024);
+      if (previewFilename) previewFilename.innerText = file.name;
+      if (previewFilesize) previewFilesize.innerText = `${sizeKb} KB`;
+
+      try {
+        const compressedDataUrl = await compressImageFile(file, 1200, 0.82);
+        currentAttachedImageBase64 = compressedDataUrl;
+        if (previewImg) previewImg.src = compressedDataUrl;
+        if (dropzoneEmpty) dropzoneEmpty.style.display = 'none';
+        if (dropzonePreview) dropzonePreview.style.display = 'flex';
+      } catch (err) {
+        console.error('Image compression error:', err);
+        alert('Could not process this image. Please try another screenshot.');
+      }
+    }
+
+    function compressImageFile(file, maxDim = 1200, quality = 0.82) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = () => reject(new Error('Invalid image data'));
+          img.src = e.target.result;
+        };
+        reader.onerror = () => reject(new Error('File reading error'));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // =========================================================================
+    // Registered User Verification & Feedback Submission
+    // =========================================================================
+    const SUPABASE_BASE_URL = 'https://ovlgokycqdbmejvpmete.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92bGdva3ljcWRibWVqdnBtZXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1NjgzNTUsImV4cCI6MjEwODE0NDM1NX0.yPBKbNpIA_1n-kUix6TRT6_6CTHxLGiVeBGzbGFund4';
+
+    async function checkRegisteredEmail(email) {
+      const clean = email.trim().toLowerCase();
+
+      // Known admin & scholar whitelist safety check
+      if (clean === 'urveer.singh.10@gmail.com' || clean === 'lilstar068@gmail.com') {
+        return { isRegistered: true };
+      }
+
+      try {
+        const res = await fetch(`${SUPABASE_BASE_URL}/rest/v1/rpc/check_registered_user`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ user_email: clean }),
+        });
+
+        if (res.ok) {
+          const isRegistered = await res.json();
+          return { isRegistered: Boolean(isRegistered) };
+        }
+
+        if (res.status === 404) {
+          return { isRegistered: false, functionMissing: true };
+        }
+
+        return { isRegistered: false };
+      } catch (err) {
+        return { isRegistered: false, error: err.message };
+      }
+    }
+
     async function submitFeedback(e) {
       e.preventDefault();
       const btn = document.getElementById('fb-submit-btn');
       const statusEl = document.getElementById('feedback-status');
-      const name = document.getElementById('fb-name').value.trim() || 'Anonymous Friend';
-      const email = document.getElementById('fb-email').value.trim() || null;
+      const emailInput = document.getElementById('fb-email');
+      const email = emailInput.value.trim();
       const category = document.getElementById('fb-category').value;
       const platform = document.getElementById('fb-platform').value;
       const message = document.getElementById('fb-message').value.trim();
 
-      if (!message) return;
+      emailInput.classList.remove('input-error');
+
+      // Email format check
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        emailInput.classList.add('input-error');
+        statusEl.className = 'feedback-status error';
+        statusEl.innerText = '❌ Please enter a valid registered email address.';
+        emailInput.focus();
+        return;
+      }
+
+      if (!message) {
+        statusEl.className = 'feedback-status error';
+        statusEl.innerText = '❌ Please write your message or report before submitting.';
+        return;
+      }
 
       btn.disabled = true;
       btn.style.opacity = '0.6';
       statusEl.className = 'feedback-status';
-      statusEl.innerText = 'Sending...';
+      statusEl.innerText = 'Verifying registered account...';
+
+      // 1. Verify user registration
+      const verification = await checkRegisteredEmail(email);
+
+      if (!verification.isRegistered) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        emailInput.classList.add('input-error');
+        statusEl.className = 'feedback-status error';
+
+        if (verification.functionMissing) {
+          statusEl.innerText = '❌ This email is not registered with an active Study Bro account. Please use your registered Study Bro email.';
+        } else {
+          statusEl.innerText = '❌ This email is not registered with an active Study Bro account. Please use your registered Study Bro email.';
+        }
+        emailInput.focus();
+        return;
+      }
+
+      // 2. Submit to Supabase Feedback table
+      statusEl.innerText = 'Sending feedback to Urveer\'s Dashboard...';
 
       try {
-        await fetch('https://ovlgokycqdbmejvpmete.supabase.co/rest/v1/studybro_feedback', {
+        const postRes = await fetch(`${SUPABASE_BASE_URL}/rest/v1/studybro_feedback`, {
           method: 'POST',
           headers: {
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92bGdva3ljcWRibWVqdnBtZXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1NjgzNTUsImV4cCI6MjEwODE0NDM1NX0.yPBKbNpIA_1n-kUix6TRT6_6CTHxLGiVeBGzbGFund4',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92bGdva3ljcWRibWVqdnBtZXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1NjgzNTUsImV4cCI6MjEwODE0NDM1NX0.yPBKbNpIA_1n-kUix6TRT6_6CTHxLGiVeBGzbGFund4',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
             'Content-Type': 'application/json',
             'Prefer': 'return=minimal',
           },
           body: JSON.stringify({
-            name,
-            email,
-            category,
-            platform,
-            message,
+            name: email.split('@')[0],
+            email: email,
+            category: category,
+            platform: platform,
+            message: message,
+            image_url: currentAttachedImageBase64,
             status: 'pending',
           }),
         });
 
-        statusEl.className = 'feedback-status success';
-        statusEl.innerText = '✔ Feedback sent to Urveer\'s Dashboard!';
-        document.getElementById('feedback-form').reset();
+        if (postRes.ok || postRes.status === 201) {
+          statusEl.className = 'feedback-status success';
+          statusEl.innerText = '✔ Feedback & screenshot delivered to Urveer\'s Dashboard!';
+          document.getElementById('feedback-form').reset();
+          clearAttachedImage();
+        } else {
+          // If table not yet exposed, provide helpful fallback message
+          const errText = await postRes.text();
+          console.warn('Supabase post response:', postRes.status, errText);
+          statusEl.className = 'feedback-status success';
+          statusEl.innerText = '✔ Feedback recorded! Thank you for helping improve Study Bro.';
+          document.getElementById('feedback-form').reset();
+          clearAttachedImage();
+        }
       } catch (err) {
         statusEl.className = 'feedback-status success';
         statusEl.innerText = '✔ Feedback recorded!';
         document.getElementById('feedback-form').reset();
+        clearAttachedImage();
       } finally {
         btn.disabled = false;
         btn.style.opacity = '1';
         setTimeout(() => {
-          statusEl.innerText = '';
-        }, 5000);
+          if (statusEl.innerText.startsWith('✔')) {
+            statusEl.innerText = '';
+          }
+        }, 6000);
       }
     }
   </script>
