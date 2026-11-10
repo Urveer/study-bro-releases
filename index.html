@@ -66,29 +66,29 @@
     }
 
     html.pastel {
-      --bg-canvas: #edf5f0;
+      --bg-canvas: #f2f6f3;
       --bg-surface: #ffffff;
-      --bg-surface-subtle: #f2f7f4;
-      --border-main: #c4ded0;
-      --border-subtle: #d7ebe1;
+      --bg-surface-subtle: #f6faf7;
+      --border-main: rgba(24, 88, 52, 0.14);
+      --border-subtle: rgba(24, 88, 52, 0.07);
       --text-primary: #12281c;
-      --text-secondary: #274d39;
-      --text-tertiary: #4a755e;
+      --text-secondary: #315340;
+      --text-tertiary: #6b8f7b;
       --accent: #185834;
       --accent-hover: #124427;
       --accent-blue: #185d94;
       --accent-text: #ffffff;
-      --accent-gradient: linear-gradient(135deg, #185834 0%, #185d94 100%);
-      --pill-bg: #e2f0e8;
-      --header-bg: rgba(237, 245, 240, 0.85);
-      --card-shadow: 0 2px 10px -2px rgba(24, 88, 52, 0.06);
-      --card-shadow-hover: 0 6px 18px -3px rgba(24, 88, 52, 0.12);
-      --glow-primary: rgba(24, 93, 148, 0.14);
-      --glow-secondary: rgba(24, 88, 52, 0.12);
-      --glow-tertiary: rgba(56, 189, 248, 0.09);
-      --roadmap-line: #a8cfbd;
-      --mockup-bg: #f5f9f6;
-      --mockup-border: #bddbc9;
+      --accent-gradient: linear-gradient(135deg, #185834 0%, #1e6d42 100%);
+      --pill-bg: #eaf3ed;
+      --header-bg: rgba(242, 246, 243, 0.85);
+      --card-shadow: 0 1px 3px 0 rgba(24, 88, 52, 0.04), 0 4px 14px -3px rgba(24, 88, 52, 0.03);
+      --card-shadow-hover: 0 6px 20px -3px rgba(24, 88, 52, 0.10);
+      --glow-primary: rgba(24, 88, 52, 0.12);
+      --glow-secondary: rgba(24, 93, 148, 0.08);
+      --glow-tertiary: rgba(56, 189, 248, 0.06);
+      --roadmap-line: rgba(24, 88, 52, 0.16);
+      --mockup-bg: #f7faf8;
+      --mockup-border: rgba(24, 88, 52, 0.14);
     }
 
     * {
@@ -222,20 +222,21 @@
     /* Floating Glass Navigation Header */
     header {
       position: sticky;
-      top: 14px;
+      top: 16px;
       z-index: 50;
       width: 100%;
-      padding: 10px 18px;
-      margin: 14px 0 24px;
+      max-width: 840px;
+      padding: 9px 18px;
+      margin: 16px auto 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border: 1px solid var(--border-main);
-      border-radius: var(--radius-lg);
+      border-radius: 999px;
       background: var(--header-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
     }
 
     .brand {
@@ -244,37 +245,48 @@
       gap: 10px;
       text-decoration: none;
       color: var(--text-primary);
+      transition: opacity 0.15s ease;
+    }
+    .brand:hover {
+      opacity: 0.9;
+    }
+
+    .brand-emblem {
+      color: var(--text-primary);
+      flex-shrink: 0;
     }
 
     .brand-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.12rem;
+      font-size: 1.08rem;
       font-weight: 700;
       letter-spacing: -0.025em;
     }
 
-    /* Compact Icon Theme Switcher */
+    /* Segmented Floating Theme Switcher */
     .theme-switcher {
       display: inline-flex;
       align-items: center;
       padding: 3px;
       background-color: var(--bg-surface-subtle);
       border: 1px solid var(--border-main);
-      border-radius: var(--radius-full);
-      gap: 3px;
+      border-radius: 999px;
+      gap: 2px;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
     }
 
     .theme-btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       padding: 0;
-      border: none;
+      border: 1px solid transparent;
       background: transparent;
-      border-radius: var(--radius-full);
-      color: var(--text-secondary);
+      border-radius: 999px;
+      color: var(--text-tertiary);
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       user-select: none;
@@ -282,45 +294,45 @@
 
     .theme-btn:hover:not(.active) {
       color: var(--text-primary);
-      background: rgba(0, 0, 0, 0.05);
+      background: rgba(0, 0, 0, 0.04);
     }
     html.dark .theme-btn:hover:not(.active) {
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .theme-btn.active {
-      background: var(--accent);
-      color: #ffffff;
-      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .theme-btn svg {
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
       flex-shrink: 0;
-      transition: transform 0.2s ease;
+      transition: color 0.15s ease;
     }
 
-    .theme-btn.active svg {
-      transform: scale(1.08);
+    /* Active Segment States: Elevated, Tactile, Pure Class */
+    .theme-btn.active {
+      background: #ffffff;
+      color: #0f172a;
+      border-color: rgba(0, 0, 0, 0.06);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
     }
 
-    /* Icon Accent Colors when Inactive */
-    .theme-btn:not(.active) .icon-sun { color: #f59e0b; }
-    .theme-btn:not(.active) .icon-moon { color: #38bdf8; }
-    .theme-btn:not(.active) .icon-palette { color: #0d9488; }
-    html.pastel .theme-btn:not(.active) .icon-palette { color: #185834; }
+    html.dark .theme-btn.active {
+      background: #1c202e;
+      color: #f8fafc;
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.6);
+    }
 
     html.pastel .theme-btn.active {
-      background: var(--accent-gradient);
-      color: #ffffff;
-      box-shadow: 0 1px 6px rgba(24, 88, 52, 0.25);
+      background: #ffffff;
+      color: #185834;
+      border-color: rgba(24, 88, 52, 0.15);
+      box-shadow: 0 1px 4px rgba(24, 88, 52, 0.08);
     }
 
     /* Hero Section */
     .hero {
       text-align: center;
-      padding: 32px 0 20px;
+      padding: 24px 0 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -329,36 +341,50 @@
     .version-tag {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 4px 12px 4px 6px;
+      gap: 7px;
+      padding: 4px 13px 4px 10px;
       background: var(--bg-surface);
       border: 1px solid var(--border-main);
       border-radius: 999px;
-      font-size: 0.73rem;
-      font-weight: 600;
+      font-size: 0.74rem;
+      font-weight: 500;
       color: var(--text-secondary);
-      margin-bottom: 20px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      margin-bottom: 22px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.2s ease;
     }
 
-    .version-pill {
-      background: var(--accent);
-      color: var(--accent-text);
-      border-radius: 999px;
-      padding: 2px 8px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
+    .version-tag:hover {
+      border-color: var(--border-main);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
-    html.pastel .version-pill {
-      background: var(--accent-gradient);
-      color: #ffffff;
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+      flex-shrink: 0;
+    }
+
+    .version-badge {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 600;
+      font-size: 0.72rem;
+      color: var(--text-primary);
+    }
+
+    .version-sep {
+      color: var(--text-tertiary);
+      font-size: 0.65rem;
     }
 
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.75rem, 4.5vw + 0.2rem, 2.7rem);
+      font-size: clamp(1.8rem, 4.5vw + 0.2rem, 2.75rem);
       font-weight: 700;
       line-height: 1.15;
       margin-bottom: 12px;
@@ -370,8 +396,8 @@
       font-size: clamp(0.92rem, 1.8vw + 0.2rem, 1.05rem);
       color: var(--text-secondary);
       max-width: 580px;
-      margin-bottom: 22px;
-      line-height: 1.55;
+      margin-bottom: 24px;
+      line-height: 1.6;
       text-wrap: pretty;
     }
 
@@ -386,7 +412,7 @@
       -webkit-text-fill-color: transparent;
     }
     html.pastel .hero-highlight {
-      background: linear-gradient(135deg, #185834 0%, #185d94 100%);
+      background: linear-gradient(135deg, #185834 0%, #1e6d42 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -396,68 +422,74 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 34px;
     }
 
     .hero-chip {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 7px 15px;
+      gap: 7px;
+      padding: 6px 14px;
       background: var(--bg-surface);
       border: 1px solid var(--border-main);
-      border-radius: var(--radius-md);
-      font-size: 0.78rem;
-      font-weight: 600;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 500;
       color: var(--text-secondary);
       box-shadow: var(--card-shadow);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  background-color 0.2s ease,
+                  border-color 0.2s ease,
+                  color 0.2s ease,
+                  box-shadow 0.2s ease;
       user-select: none;
       cursor: default;
     }
 
     .hero-chip svg {
+      width: 13px;
+      height: 13px;
       flex-shrink: 0;
-      transition: transform 0.25s ease;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
     }
 
     .hero-chip:hover {
       color: var(--text-primary);
-      transform: translateY(-2px);
+      transform: translateY(-1.5px);
+      border-color: rgba(15, 23, 42, 0.16);
       box-shadow: var(--card-shadow-hover);
-      border-color: var(--border-main);
     }
 
     .hero-chip:hover svg {
-      transform: scale(1.15);
+      opacity: 1;
     }
 
-    .chip-icon-bolt { color: #f59e0b; }
-    .chip-icon-vault { color: #0284c7; }
-    .chip-icon-sync { color: #10b981; }
-
+    /* Dark Mode Hover Fix: Zero Scuffed Glitches, Zero Neon Cyan */
     html.dark .hero-chip {
       background: rgba(255, 255, 255, 0.03);
       border-color: rgba(255, 255, 255, 0.08);
       color: #94a3b8;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     html.dark .hero-chip:hover {
       background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(56, 189, 248, 0.5);
-      box-shadow: 0 4px 20px -2px rgba(56, 189, 248, 0.16), 0 0 0 1px rgba(56, 189, 248, 0.2);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.5);
       color: #f8fafc;
     }
 
     html.pastel .hero-chip {
       background: #ffffff;
       border-color: var(--border-main);
+      color: var(--text-secondary);
     }
 
     html.pastel .hero-chip:hover {
-      border-color: var(--accent);
-      box-shadow: 0 4px 14px -2px rgba(24, 88, 52, 0.14);
+      border-color: rgba(24, 88, 52, 0.28);
+      box-shadow: 0 4px 14px -2px rgba(24, 88, 52, 0.08);
       color: var(--text-primary);
     }
 
@@ -1164,7 +1196,10 @@
       }
 
       header {
-        padding: 16px 0 14px;
+        top: 10px;
+        padding: 7px 14px;
+        margin: 10px auto 20px;
+        border-radius: 999px;
         gap: 10px;
       }
 
@@ -1500,7 +1535,10 @@
       }
 
       header {
-        padding: 14px 0 10px;
+        top: 8px;
+        padding: 6px 12px;
+        margin: 8px auto 16px;
+        border-radius: 999px;
       }
 
       .brand-title {
@@ -1554,33 +1592,25 @@
     <!-- Top Nav -->
     <header>
       <a href="#" class="brand">
-        <!-- SVG Brandmark: Sage Green + Ocean Blue Orbitals -->
-        <svg width="28" height="28" viewBox="0 0 512 512" fill="none">
-          <g transform="translate(256, 256)">
-            <ellipse class="logo-orbit-1" cx="0" cy="0" rx="156" ry="66" fill="none" stroke="#185834" stroke-width="22" stroke-linecap="round" />
-            <ellipse class="logo-orbit-2" cx="0" cy="0" rx="156" ry="66" fill="none" stroke="#185D94" stroke-width="22" stroke-linecap="round" />
-            <g class="logo-core">
-              <circle cx="0" cy="0" r="36" fill="#185834" />
-              <circle cx="-6" cy="-6" r="11" fill="#E0F2FE" opacity="0.9" />
-            </g>
-            <circle cx="120" cy="-70" r="14" fill="#F8A573" stroke="#FFFFFF" stroke-width="3" />
-            <circle cx="-120" cy="70" r="14" fill="#0284C7" stroke="#FFFFFF" stroke-width="3" />
-            <circle cx="0" cy="54" r="10" fill="#FCD34D" stroke="#FFFFFF" stroke-width="2" />
-          </g>
+        <!-- Minimalist Quantum Orbital Brandmark -->
+        <svg class="brand-emblem" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(32 12 12)" />
+          <ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(-32 12 12)" />
+          <circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none" />
         </svg>
         <span class="brand-title">Study Bro</span>
       </a>
 
-      <!-- Segmented Theme Switcher -->
-      <div class="theme-switcher" role="radiogroup" aria-label="Theme Switcher">
+      <!-- Segmented Floating Theme Switcher -->
+      <div class="theme-switcher" role="radiogroup" aria-label="Theme Selector">
         <button type="button" class="theme-btn active" id="btn-light" onclick="setTheme('light')" title="Light Theme" aria-label="Light Theme">
-          <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
         <button type="button" class="theme-btn" id="btn-dark" onclick="setTheme('dark')" title="Dark Theme" aria-label="Dark Theme">
-          <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
         <button type="button" class="theme-btn" id="btn-pastel" onclick="setTheme('pastel')" title="Pastel Theme" aria-label="Pastel Theme">
-          <svg class="icon-palette" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"/></svg>
+          <svg class="icon-palette" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"/></svg>
         </button>
       </div>
     </header>
@@ -1588,8 +1618,10 @@
     <!-- Hero -->
     <section class="hero">
       <div class="version-tag">
-        <span class="version-pill">v2.0.0</span>
-        <span id="version-text">Native Desktop &amp; Android Engine</span>
+        <span class="live-dot" aria-hidden="true"></span>
+        <span class="version-badge" id="version-tag-badge">v2.0.0</span>
+        <span class="version-sep" aria-hidden="true">•</span>
+        <span id="version-text">Native Desktop &amp; Mobile Engine</span>
       </div>
 
       <h1 class="hero-title">Personal AI &amp; JEE Advanced <span class="hero-highlight">Study Copilot</span></h1>
@@ -1599,15 +1631,15 @@
 
       <div class="hero-chips">
         <div class="hero-chip">
-          <svg class="chip-icon-bolt" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           <span>100% Offline-First</span>
         </div>
         <div class="hero-chip">
-          <svg class="chip-icon-vault" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
           <span>15+ Yrs JEE Archives</span>
         </div>
         <div class="hero-chip">
-          <svg class="chip-icon-sync" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M2.5 22v-6h6"/><path d="M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.2L2.5 16"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6"/><path d="M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.2L2.5 16"/></svg>
           <span>Smart Schedule Rollover</span>
         </div>
       </div>
@@ -2115,7 +2147,10 @@
           const data = await res.json();
           currentReleaseAssets.version = data.tag_name || 'v2.0.0';
           currentReleaseAssets.releaseUrl = data.html_url || 'https://github.com/Urveer/study-bro-releases/releases';
-          document.getElementById('version-text').innerText = currentReleaseAssets.version + ' • Production Release';
+          const tagBadge = document.getElementById('version-tag-badge');
+          if (tagBadge) tagBadge.innerText = currentReleaseAssets.version;
+          const verText = document.getElementById('version-text');
+          if (verText) verText.innerText = 'Verified Production Release';
 
           const assets = data.assets || [];
           const exeAsset = assets.find(a => a.name.endsWith('.exe'));
