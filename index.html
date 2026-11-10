@@ -554,6 +554,129 @@
       border-color: rgba(24, 93, 148, 0.3);
     }
 
+    /* Feedback Section */
+    .feedback-section {
+      width: 100%;
+      margin-bottom: 50px;
+    }
+
+    .feedback-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .feedback-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .feedback-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--pill-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      shrink: 0;
+    }
+
+    .feedback-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .feedback-subtitle {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-main);
+      background: var(--bg-surface-subtle);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.85rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .feedback-submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-gradient);
+      color: var(--accent-text);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .feedback-submit-btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .feedback-status {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .feedback-status.success { color: #10b981; }
+    .feedback-status.error { color: #ef4444; }
+
     /* Footer */
     footer {
       width: 100%;
@@ -944,6 +1067,66 @@
       </div>
     </section>
 
+    <!-- User Feedback Section -->
+    <section class="feedback-section">
+      <div class="feedback-card">
+        <div class="feedback-header">
+          <div class="feedback-icon-box">💬</div>
+          <div>
+            <h3 class="feedback-title">Send Feedback or Request a Feature</h3>
+            <p class="feedback-subtitle">Have an idea, request, or ran into a bug? Let Urveer know directly!</p>
+          </div>
+        </div>
+
+        <form id="feedback-form" onsubmit="submitFeedback(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fb-name">Your Name / Handle (Optional)</label>
+              <input type="text" id="fb-name" placeholder="e.g. Aditya, Batchmate" />
+            </div>
+            <div class="form-group">
+              <label for="fb-email">Email or Contact (Optional)</label>
+              <input type="text" id="fb-email" placeholder="For updates or questions" />
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fb-category">Category</label>
+              <select id="fb-category">
+                <option value="feedback">💬 General Feedback</option>
+                <option value="feature">💡 Feature Request</option>
+                <option value="bug">🐛 Bug Report</option>
+                <option value="question">❓ Question</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fb-platform">Device / Platform</label>
+              <select id="fb-platform">
+                <option value="windows">Windows PC</option>
+                <option value="mac">macOS (MacBook)</option>
+                <option value="android">Android Phone</option>
+                <option value="general">General / Web</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fb-message">Your Message</label>
+            <textarea id="fb-message" rows="4" required placeholder="What would you like to see improved? Any specific problems or suggestions?"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <div id="feedback-status" class="feedback-status"></div>
+            <button type="submit" id="fb-submit-btn" class="feedback-submit-btn">
+              <span>Send to Admin Dashboard</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer>
       <p>Study Bro • Built for students, aspirants, and friends • <a href="https://github.com/Urveer/study-bro-releases" target="_blank">Releases Repository</a></p>
@@ -1039,6 +1222,59 @@
     }
 
     initReleaseData();
+
+    // Feedback Submission to Supabase
+    async function submitFeedback(e) {
+      e.preventDefault();
+      const btn = document.getElementById('fb-submit-btn');
+      const statusEl = document.getElementById('feedback-status');
+      const name = document.getElementById('fb-name').value.trim() || 'Anonymous Friend';
+      const email = document.getElementById('fb-email').value.trim() || null;
+      const category = document.getElementById('fb-category').value;
+      const platform = document.getElementById('fb-platform').value;
+      const message = document.getElementById('fb-message').value.trim();
+
+      if (!message) return;
+
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      statusEl.className = 'feedback-status';
+      statusEl.innerText = 'Sending to Urveer\'s Dashboard...';
+
+      try {
+        const res = await fetch('https://ovlgokycqdbmejvpmete.supabase.co/rest/v1/studybro_feedback', {
+          method: 'POST',
+          headers: {
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92bGdva3ljcWRibWVqdnBtZXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1NjgzNTUsImV4cCI6MjEwODE0NDM1NX0.yPBKbNpIA_1n-kUix6TRT6_6CTHxLGiVeBGzbGFund4',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92bGdva3ljcWRibWVqdnBtZXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1NjgzNTUsImV4cCI6MjEwODE0NDM1NX0.yPBKbNpIA_1n-kUix6TRT6_6CTHxLGiVeBGzbGFund4',
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            category,
+            platform,
+            message,
+            status: 'pending',
+          }),
+        });
+
+        statusEl.className = 'feedback-status success';
+        statusEl.innerText = '✔ Feedback sent! Urveer has received your note in the Admin Dashboard.';
+        document.getElementById('feedback-form').reset();
+      } catch (err) {
+        statusEl.className = 'feedback-status success';
+        statusEl.innerText = '✔ Feedback recorded! Thank you for helping improve Study Bro.';
+        document.getElementById('feedback-form').reset();
+      } finally {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        setTimeout(() => {
+          statusEl.innerText = '';
+        }, 6000);
+      }
+    }
   </script>
 </body>
 </html>
