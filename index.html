@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Bro — Download for Windows, Mac & Android</title>
+  <meta name="description" content="Study Bro: Utilitarian, local-first, AI-powered Personal & JEE Study Copilot. Download for Windows, macOS, and Android." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%233D6B58'/><circle cx='256' cy='256' r='60' fill='%23F8A573'/></svg>" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-canvas: #fafafb;
+      --bg-surface: #ffffff;
+      --bg-surface-subtle: #f4f5f8;
+      --border-main: #e5e7eb;
+      --border-subtle: #f0f2f5;
+      --text-primary: #111317;
+      --text-secondary: #4b5563;
+      --text-tertiary: #9ca3af;
+      --accent: #181a20;
+      --accent-hover: #262933;
+      --accent-text: #ffffff;
+      --pill-bg: #eef2f6;
+      --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+      --glow-color: rgba(99, 102, 241, 0.15);
+    }
+
+    html.dark {
+      --bg-canvas: #050507;
+      --bg-surface: #0c0d11;
+      --bg-surface-subtle: #121318;
+      --border-main: rgba(255, 255, 255, 0.08);
+      --border-subtle: rgba(255, 255, 255, 0.04);
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --text-tertiary: #6b7280;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-text: #ffffff;
+      --pill-bg: rgba(255, 255, 255, 0.06);
+      --card-shadow: 0 10px 35px -10px rgba(0, 0, 0, 0.7);
+      --glow-color: rgba(99, 102, 241, 0.22);
+    }
+
+    html.pastel {
+      --bg-canvas: #b8d6c7;
+      --bg-surface: #e2f0e8;
+      --bg-surface-subtle: #d0e5db;
+      --border-main: #84b49b;
+      --border-subtle: #a0c9b4;
+      --text-primary: #081a10;
+      --text-secondary: #113621;
+      --text-tertiary: #1f4f34;
+      --accent: #185834;
+      --accent-hover: #124427;
+      --accent-text: #ffffff;
+      --pill-bg: #d0e5db;
+      --card-shadow: 0 10px 30px -10px rgba(24, 88, 52, 0.15);
+      --glow-color: rgba(94, 150, 126, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Ambient Background Glow */
+    .glow-sphere {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
+      top: -200px;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatPulse 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatPulse {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(40px) scale(1.1); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 980px;
+      padding: 0 24px;
+      z-index: 1;
+    }
+
+    /* Header Nav */
+    header {
+      width: 100%;
+      padding: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* Theme Segmented Switcher */
+    .theme-switcher {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 3px;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: 12px;
+      gap: 2px;
+    }
+
+    .theme-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .theme-btn.active {
+      background-color: var(--accent);
+      color: var(--accent-text);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 50px 0 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .version-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--pill-bg);
+      border: 1px solid var(--border-main);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin-bottom: 36px;
+    }
+
+    /* Primary Recommended Download Button */
+    .primary-download-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: 24px;
+      padding: 24px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .primary-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 28px;
+      background: var(--accent);
+      color: var(--accent-text);
+      text-decoration: none;
+      border-radius: 16px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.25);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.35);
+      background: var(--accent-hover);
+    }
+
+    .primary-btn:active {
+      transform: scale(0.98);
+    }
+
+    .detected-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Secondary Download Buttons */
+    .other-platforms {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+
+    .secondary-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .secondary-btn:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+    }
+
+    /* Installation Bypass Guides */
+    .guides-section {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 60px;
+      width: 100%;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* Tabs */
+    .guide-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .guide-tab-btn {
+      padding: 8px 18px;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-main);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .guide-tab-btn.active {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: var(--accent);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Guide Steps */
+    .steps-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .step-card {
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: var(--accent-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .smartscreen-alert {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      padding: 30px 0 50px;
+      text-align: center;
+      border-top: 1px solid var(--border-main);
+      color: var(--text-tertiary);
+      font-size: 0.82rem;
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .hero-title { font-size: 2.4rem; }
+      .steps-list { grid-template-columns: 1fr; }
+      header { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-sphere"></div>
+
+  <div class="container">
+    <!-- Top Nav -->
+    <header>
+      <a href="#" class="brand">
+        <!-- SVG Brandmark -->
+        <svg width="34" height="34" viewBox="0 0 512 512" fill="none">
+          <rect x="24" y="24" width="464" height="464" rx="116" fill="#EFF7F2" stroke="#C5E4D4" stroke-width="8" />
+          <g transform="translate(256, 256)">
+            <ellipse cx="0" cy="0" rx="152" ry="64" transform="rotate(-35)" fill="none" stroke="#3D6B58" stroke-width="20" stroke-linecap="round" />
+            <ellipse cx="0" cy="0" rx="152" ry="64" transform="rotate(35)" fill="none" stroke="#5E967E" stroke-width="20" stroke-linecap="round" />
+            <circle cx="0" cy="0" r="36" fill="#3D6B58" />
+            <circle cx="-7" cy="-7" r="11" fill="#E8F6EF" opacity="0.75" />
+            <circle cx="120" cy="-70" r="15" fill="#F8A573" stroke="#FFFFFF" stroke-width="3.5" />
+            <circle cx="-120" cy="70" r="13" fill="#5E967E" stroke="#FFFFFF" stroke-width="3.5" />
+            <circle cx="0" cy="54" r="10" fill="#FCD34D" stroke="#FFFFFF" stroke-width="2.5" />
+          </g>
+        </svg>
+        <span class="brand-title">Study Bro</span>
+      </a>
+
+      <!-- Theme Switcher -->
+      <div class="theme-switcher">
+        <button type="button" class="theme-btn active" id="btn-light" onclick="setTheme('light')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          Light
+        </button>
+        <button type="button" class="theme-btn" id="btn-dark" onclick="setTheme('dark')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          Dark
+        </button>
+        <button type="button" class="theme-btn" id="btn-pastel" onclick="setTheme('pastel')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"/></svg>
+          Pastel
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="version-tag">
+        <span class="status-dot"></span>
+        <span id="version-text">Loading latest release...</span>
+      </div>
+
+      <h1 class="hero-title">Your Personal AI &amp; JEE Advanced Study Copilot</h1>
+      <p class="hero-desc">
+        Fast, offline-first, distraction-free. Question banks, mock tests, smart timetable rollover, and AI pairing built natively for desktop and mobile.
+      </p>
+
+      <!-- Primary Download Card (Auto-Detected) -->
+      <div class="primary-download-card">
+        <a id="primary-dl-btn" href="https://github.com/Urveer/study-bro-releases/releases" class="primary-btn">
+          <span id="primary-btn-icon">⚡</span>
+          <span id="primary-btn-text">Download Study Bro</span>
+        </a>
+        <div class="detected-badge">
+          <span id="detected-os-text">Detecting your device...</span>
+          <span>• 100% Free &amp; Clean</span>
+        </div>
+      </div>
+
+      <!-- Secondary Platforms -->
+      <div class="other-platforms">
+        <a id="win-dl-link" href="#" class="secondary-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.799"/></svg>
+          Windows (.exe)
+        </a>
+        <a id="mac-dl-link" href="#" class="secondary-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.66-.82 1.11-1.96.99-3.1-.96.04-2.11.64-2.79 1.45-.59.69-1.12 1.83-.98 2.93 1.07.08 2.15-.55 2.78-1.28z"/></svg>
+          MacBook (.dmg)
+        </a>
+        <a id="android-dl-link" href="#" class="secondary-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8533 8.084 12 8.084s-3.5902.327-5.1368.8657L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
+          Android (.apk)
+        </a>
+      </div>
+    </section>
+
+    <!-- First-Time Security Bypass Guide -->
+    <section class="guides-section">
+      <div class="section-header">
+        <h2 class="section-title">First-Time Setup Guide</h2>
+        <p class="section-subtitle">Study Bro is an independent, non-commercial indie app. Here's how to allow it on your device in 2 clicks.</p>
+      </div>
+
+      <!-- Guide Tabs -->
+      <div class="guide-tabs">
+        <button class="guide-tab-btn active" id="tab-btn-win" onclick="switchGuide('win')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.799"/></svg>
+          Windows
+        </button>
+        <button class="guide-tab-btn" id="tab-btn-mac" onclick="switchGuide('mac')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.66-.82 1.11-1.96.99-3.1-.96.04-2.11.64-2.79 1.45-.59.69-1.12 1.83-.98 2.93 1.07.08 2.15-.55 2.78-1.28z"/></svg>
+          macOS
+        </button>
+        <button class="guide-tab-btn" id="tab-btn-android" onclick="switchGuide('android')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997"/></svg>
+          Android
+        </button>
+      </div>
+
+      <!-- Windows Guide Content -->
+      <div class="tab-content active" id="guide-win">
+        <div class="steps-list">
+          <div class="step-card">
+            <span class="step-number">1</span>
+            <h4 class="step-title">Run Installer</h4>
+            <p class="step-desc">Double-click the downloaded <code>.exe</code> file. Windows SmartScreen may show a blue prompt.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">2</span>
+            <h4 class="step-title">Click "More info"</h4>
+            <p class="step-desc">Click the small underline link labeled <strong>"More info"</strong> under the protection message.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">3</span>
+            <h4 class="step-title">Click "Run anyway"</h4>
+            <p class="step-desc">A new button will appear. Click <strong>"Run anyway"</strong> to install and start studying.</p>
+          </div>
+        </div>
+        <div class="smartscreen-alert">
+          <span>ℹ️</span>
+          <span><strong>Why this happens:</strong> Microsoft charges developers \$300/year for EV signing certificates. Study Bro is 100% open, verified, and free. Future updates install silently!</span>
+        </div>
+      </div>
+
+      <!-- Mac Guide Content -->
+      <div class="tab-content" id="guide-mac">
+        <div class="steps-list">
+          <div class="step-card">
+            <span class="step-number">1</span>
+            <h4 class="step-title">Install Application</h4>
+            <p class="step-desc">Open the <code>.dmg</code> file and drag <strong>Study Bro</strong> into your <strong>Applications</strong> folder.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">2</span>
+            <h4 class="step-title">Right-Click &amp; Open</h4>
+            <p class="step-desc">In Finder, <strong>Right-Click (Control-Click)</strong> the Study Bro icon and select <strong>"Open"</strong>.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">3</span>
+            <h4 class="step-title">Confirm "Open Anyway"</h4>
+            <p class="step-desc">Click <strong>"Open"</strong> in the prompt. Or navigate to <strong>System Settings → Privacy &amp; Security</strong> and click <strong>"Open Anyway"</strong>.</p>
+          </div>
+        </div>
+        <div class="smartscreen-alert">
+          <span>ℹ️</span>
+          <span>You only need to do this on the very first launch. Future updates update automatically inside the app.</span>
+        </div>
+      </div>
+
+      <!-- Android Guide Content -->
+      <div class="tab-content" id="guide-android">
+        <div class="steps-list">
+          <div class="step-card">
+            <span class="step-number">1</span>
+            <h4 class="step-title">Download APK</h4>
+            <p class="step-desc">Download the <code>.apk</code> file directly onto your phone from the link above.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">2</span>
+            <h4 class="step-title">Allow From Source</h4>
+            <p class="step-desc">If Chrome or Files asks for permission, tap <strong>Settings</strong> and switch on <strong>"Allow from this source"</strong>.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">3</span>
+            <h4 class="step-title">Tap Install</h4>
+            <p class="step-desc">Tap <strong>Install</strong>. Your data is kept locally and synced with your account securely.</p>
+          </div>
+        </div>
+        <div class="smartscreen-alert">
+          <span>ℹ️</span>
+          <span>Study Bro is signed with a permanent 25-year developer key so all your future updates install seamlessly over existing versions.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>Study Bro • Built for students, aspirants, and friends • <a href="https://github.com/Urveer/study-bro-releases" target="_blank">Releases Repository</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // Theme Management
+    function setTheme(theme) {
+      document.documentElement.className = theme;
+      localStorage.setItem('studybro_web_theme', theme);
+
+      document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-' + theme);
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    const savedTheme = localStorage.getItem('studybro_web_theme') || 'light';
+    setTheme(savedTheme);
+
+    // Guide Tab Switching
+    function switchGuide(platform) {
+      document.querySelectorAll('.guide-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      const tabBtn = document.getElementById('tab-btn-' + platform);
+      const tabContent = document.getElementById('guide-' + platform);
+      if (tabBtn && tabContent) {
+        tabBtn.classList.add('active');
+        tabContent.classList.add('active');
+      }
+    }
+
+    // Dynamic OS Auto-Detection & GitHub Release Fetcher
+    async function initReleaseData() {
+      const userAgent = navigator.userAgent || '';
+      const platform = navigator.platform || '';
+
+      let os = 'windows'; // default fallback
+      if (/Android/i.test(userAgent)) os = 'android';
+      else if (/Macintosh|Mac OS|MacIntel/i.test(userAgent) || /Mac/i.test(platform)) os = 'mac';
+      else if (/Windows/i.test(userAgent)) os = 'windows';
+
+      // Switch guide tab to match detected OS
+      switchGuide(os === 'mac' ? 'mac' : os === 'android' ? 'android' : 'win');
+
+      // Update Detected OS Text
+      const osNames = { windows: 'Windows PC (x64)', mac: 'macOS (MacBook/iMac)', android: 'Android' };
+      document.getElementById('detected-os-text').innerText = 'Detected: ' + osNames[os];
+
+      const primaryBtn = document.getElementById('primary-dl-btn');
+      const primaryText = document.getElementById('primary-btn-text');
+
+      try {
+        const res = await fetch('https://api.github.com/repos/Urveer/study-bro-releases/releases/latest');
+        if (res.ok) {
+          const data = await res.json();
+          const version = data.tag_name || 'v2.0.0';
+          document.getElementById('version-text').innerText = 'Latest Version: ' + version + ' • Ready to Install';
+
+          // Match assets
+          const assets = data.assets || [];
+          const exeAsset = assets.find(a => a.name.endsWith('.exe'));
+          const dmgAsset = assets.find(a => a.name.endsWith('.dmg'));
+          const apkAsset = assets.find(a => a.name.endsWith('.apk'));
+
+          // Set secondary links
+          if (exeAsset) document.getElementById('win-dl-link').href = exeAsset.browser_download_url;
+          if (dmgAsset) document.getElementById('mac-dl-link').href = dmgAsset.browser_download_url;
+          if (apkAsset) document.getElementById('android-dl-link').href = apkAsset.browser_download_url;
+
+          // Set primary button link & text
+          if (os === 'windows' && exeAsset) {
+            primaryBtn.href = exeAsset.browser_download_url;
+            primaryText.innerText = 'Download for Windows (' + version + ')';
+          } else if (os === 'mac' && dmgAsset) {
+            primaryBtn.href = dmgAsset.browser_download_url;
+            primaryText.innerText = 'Download for Mac (' + version + ')';
+          } else if (os === 'android' && apkAsset) {
+            primaryBtn.href = apkAsset.browser_download_url;
+            primaryText.innerText = 'Download APK for Android (' + version + ')';
+          } else {
+            primaryBtn.href = data.html_url;
+            primaryText.innerText = 'Download ' + version + ' for ' + osNames[os];
+          }
+        } else {
+          document.getElementById('version-text').innerText = 'Version 2.0.0 • Initial Release';
+          primaryText.innerText = 'Download for ' + osNames[os];
+        }
+      } catch (e) {
+        document.getElementById('version-text').innerText = 'Version 2.0.0 • Production Build';
+      }
+    }
+
+    initReleaseData();
+  </script>
+</body>
+</html>
