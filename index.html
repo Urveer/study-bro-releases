@@ -2404,6 +2404,10 @@
       statusEl.innerText = 'Sending feedback...';
 
       try {
+        const feedbackId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : ('fb-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9));
+
         const postRes = await fetch(`${SUPABASE_BASE_URL}/rest/v1/studybro_feedback`, {
           method: 'POST',
           headers: {
@@ -2413,6 +2417,7 @@
             'Prefer': 'return=minimal',
           },
           body: JSON.stringify({
+            id: feedbackId,
             name: email.split('@')[0],
             email: email,
             category: category,
@@ -2429,19 +2434,15 @@
           document.getElementById('feedback-form').reset();
           clearAttachedImage();
         } else {
-          // If table not yet exposed, provide helpful fallback message
           const errText = await postRes.text();
           console.warn('Supabase post response:', postRes.status, errText);
-          statusEl.className = 'feedback-status success';
-          statusEl.innerText = '✔ Feedback recorded! Thank you for helping improve Study Bro.';
-          document.getElementById('feedback-form').reset();
-          clearAttachedImage();
+          statusEl.className = 'feedback-status error';
+          statusEl.innerText = 'Unable to send feedback (' + postRes.status + '). Please try again.';
         }
       } catch (err) {
-        statusEl.className = 'feedback-status success';
-        statusEl.innerText = '✔ Feedback recorded!';
-        document.getElementById('feedback-form').reset();
-        clearAttachedImage();
+        console.error('Feedback network exception:', err);
+        statusEl.className = 'feedback-status error';
+        statusEl.innerText = 'Network error while sending feedback.';
       } finally {
         btn.disabled = false;
         btn.style.opacity = '1';
