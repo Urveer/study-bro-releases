@@ -28,6 +28,8 @@
       --pill-bg: #f1f5f9;
       --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
       --card-shadow-hover: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+      --glow-primary: rgba(56, 189, 248, 0.28);
+      --glow-secondary: rgba(129, 140, 248, 0.22);
       --roadmap-line: #cbd5e1;
       --mockup-bg: #f8fafc;
       --mockup-border: #e2e8f0;
@@ -52,6 +54,8 @@
       --pill-bg: rgba(255, 255, 255, 0.05);
       --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
       --card-shadow-hover: 0 4px 14px -2px rgba(0, 0, 0, 0.6);
+      --glow-primary: rgba(99, 102, 241, 0.45);
+      --glow-secondary: rgba(6, 182, 212, 0.35);
       --roadmap-line: rgba(255, 255, 255, 0.12);
       --mockup-bg: #141620;
       --mockup-border: rgba(255, 255, 255, 0.08);
@@ -74,6 +78,8 @@
       --pill-bg: #cfe3d7;
       --card-shadow: 0 2px 6px -1px rgba(24, 88, 52, 0.08);
       --card-shadow-hover: 0 4px 12px -2px rgba(24, 88, 52, 0.14);
+      --glow-primary: rgba(24, 93, 148, 0.55);
+      --glow-secondary: rgba(24, 88, 52, 0.50);
       --roadmap-line: #74a88f;
       --mockup-bg: #d7eae0;
       --mockup-border: #9ec6b1;
@@ -96,6 +102,89 @@
       align-items: center;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Vibrant Multi-Orb Aurora Mesh */
+    .aurora-container {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      max-width: 1200px;
+      height: 640px;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .aurora-orb-1 {
+      position: absolute;
+      width: 620px;
+      height: 620px;
+      border-radius: 50%;
+      top: -160px;
+      left: 5%;
+      background: radial-gradient(circle, var(--glow-primary) 0%, transparent 68%);
+      filter: blur(55px);
+      animation: auroraFloat1 11s ease-in-out infinite alternate;
+      opacity: 0.9;
+    }
+
+    .aurora-orb-2 {
+      position: absolute;
+      width: 580px;
+      height: 580px;
+      border-radius: 50%;
+      top: -130px;
+      right: 8%;
+      background: radial-gradient(circle, var(--glow-secondary) 0%, transparent 66%);
+      filter: blur(60px);
+      animation: auroraFloat2 14s ease-in-out infinite alternate;
+      opacity: 0.85;
+    }
+
+    @keyframes auroraFloat1 {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      50% { transform: translate(70px, 50px) scale(1.18) rotate(45deg); }
+      100% { transform: translate(-35px, 85px) scale(0.96) rotate(90deg); }
+    }
+
+    @keyframes auroraFloat2 {
+      0% { transform: translate(0, 0) scale(1.05) rotate(0deg); }
+      50% { transform: translate(-80px, 55px) scale(0.92) rotate(-45deg); }
+      100% { transform: translate(45px, 95px) scale(1.22) rotate(-90deg); }
+    }
+
+    /* Gyroscopic Atomic Animation on Logo */
+    @keyframes orbitSpin1 {
+      0% { transform: rotate(-35deg) scale(1); }
+      50% { transform: rotate(145deg) scale(1.04); }
+      100% { transform: rotate(325deg) scale(1); }
+    }
+    @keyframes orbitSpin2 {
+      0% { transform: rotate(35deg) scale(1); }
+      50% { transform: rotate(-145deg) scale(1.04); }
+      100% { transform: rotate(-325deg) scale(1); }
+    }
+    @keyframes coreResonate {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.09); }
+    }
+
+    .logo-orbit-1 {
+      transform-origin: 0px 0px;
+      animation: orbitSpin1 26s linear infinite;
+    }
+    .logo-orbit-2 {
+      transform-origin: 0px 0px;
+      animation: orbitSpin2 22s linear infinite;
+    }
+    .logo-core {
+      transform-origin: 0px 0px;
+      animation: coreResonate 3.5s ease-in-out infinite;
     }
 
     .container {
@@ -186,14 +275,22 @@
     }
 
     .status-dot {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      animation: statusBreathe 2.5s ease-in-out infinite;
     }
 
     html.pastel .status-dot {
       background: #0284c7;
+      box-shadow: 0 0 12px #0284c7;
+    }
+
+    @keyframes statusBreathe {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.8); opacity: 0.5; }
     }
 
     .hero-title {
@@ -215,20 +312,42 @@
 
     /* Wide Elegant Download Card */
     .download-card-wide {
+      position: relative;
       background: var(--bg-surface);
       border: 1px solid var(--border-main);
       border-radius: var(--radius-lg);
       padding: 24px 28px;
       width: 100%;
       max-width: 720px;
-      box-shadow: var(--card-shadow);
+      box-shadow: 0 4px 25px -4px var(--glow-primary), var(--card-shadow);
       display: flex;
       flex-direction: column;
       gap: 20px;
       margin-bottom: 48px;
+      overflow: hidden;
+    }
+
+    .download-card-wide::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: -60%;
+      width: 220%;
+      height: 220%;
+      background: radial-gradient(circle at 50% 0%, var(--glow-primary) 0%, transparent 55%);
+      pointer-events: none;
+      opacity: 0.4;
+      animation: ambientDrift 9s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientDrift {
+      0% { transform: translate(-8%, -8%); }
+      100% { transform: translate(8%, 8%); }
     }
 
     .download-primary-row {
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -258,11 +377,39 @@
     }
 
     .primary-cta-btn {
+      position: relative;
+      overflow: hidden;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 12px 24px;
       background: var(--accent);
+      color: var(--accent-text);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      font-size: 0.94rem;
+      font-weight: 600;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .primary-cta-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+      transform: skewX(-20deg);
+      animation: btnShimmer 5s infinite;
+    }
+
+    @keyframes btnShimmer {
+      0%, 75% { left: -120%; }
+      100% { left: 180%; }
+    }
       color: var(--accent-text);
       text-decoration: none;
       border-radius: var(--radius-md);
@@ -679,18 +826,24 @@
   </style>
 </head>
 <body>
+  <div class="aurora-container">
+    <div class="aurora-orb-1"></div>
+    <div class="aurora-orb-2"></div>
+  </div>
   <div class="container">
     <!-- Top Nav -->
     <header>
       <a href="#" class="brand">
         <!-- SVG Brandmark: Sage Green + Ocean Blue Orbitals -->
-        <svg width="28" height="28" viewBox="0 0 512 512" fill="none">
+        <svg width="30" height="30" viewBox="0 0 512 512" fill="none">
           <rect x="24" y="24" width="464" height="464" rx="80" fill="#EFF7F2" stroke="#A0C9B4" stroke-width="8" />
           <g transform="translate(256, 256)">
-            <ellipse cx="0" cy="0" rx="152" ry="64" transform="rotate(-35)" fill="none" stroke="#185834" stroke-width="20" stroke-linecap="round" />
-            <ellipse cx="0" cy="0" rx="152" ry="64" transform="rotate(35)" fill="none" stroke="#185D94" stroke-width="20" stroke-linecap="round" />
-            <circle cx="0" cy="0" r="34" fill="#185834" />
-            <circle cx="-6" cy="-6" r="10" fill="#E0F2FE" opacity="0.85" />
+            <ellipse class="logo-orbit-1" cx="0" cy="0" rx="152" ry="64" fill="none" stroke="#185834" stroke-width="20" stroke-linecap="round" />
+            <ellipse class="logo-orbit-2" cx="0" cy="0" rx="152" ry="64" fill="none" stroke="#185D94" stroke-width="20" stroke-linecap="round" />
+            <g class="logo-core">
+              <circle cx="0" cy="0" r="34" fill="#185834" />
+              <circle cx="-6" cy="-6" r="10" fill="#E0F2FE" opacity="0.85" />
+            </g>
             <circle cx="120" cy="-70" r="14" fill="#F8A573" stroke="#FFFFFF" stroke-width="3" />
             <circle cx="-120" cy="70" r="14" fill="#0284C7" stroke="#FFFFFF" stroke-width="3" />
             <circle cx="0" cy="54" r="10" fill="#FCD34D" stroke="#FFFFFF" stroke-width="2" />
