@@ -1837,7 +1837,7 @@
     <section class="feedback-section">
       <div class="feedback-header">
         <h3 class="feedback-title">Feedback &amp; Bug Reports</h3>
-        <p class="feedback-subtitle">Have a suggestion or found an issue? Send a note directly to Urveer's dashboard.</p>
+        <p class="feedback-subtitle">Have a suggestion, found a bug, or want a feature? Let us know below.</p>
       </div>
 
       <form id="feedback-form" onsubmit="submitFeedback(event)">
@@ -1923,7 +1923,7 @@
           <div id="feedback-status" class="feedback-status"></div>
           <button type="submit" id="fb-submit-btn" class="feedback-submit-btn">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-            <span>Send to Urveer's Dashboard</span>
+            <span>Send Feedback</span>
           </button>
         </div>
       </form>
@@ -2310,7 +2310,7 @@
       }
 
       // 2. Submit to Supabase Feedback table
-      statusEl.innerText = 'Sending feedback to Urveer\'s Dashboard...';
+      statusEl.innerText = 'Sending feedback...';
 
       try {
         const postRes = await fetch(`${SUPABASE_BASE_URL}/rest/v1/studybro_feedback`, {
@@ -2334,7 +2334,7 @@
 
         if (postRes.ok || postRes.status === 201) {
           statusEl.className = 'feedback-status success';
-          statusEl.innerText = '✔ Feedback & screenshot delivered to Urveer\'s Dashboard!';
+          statusEl.innerText = '✔ Feedback submitted successfully!';
           document.getElementById('feedback-form').reset();
           clearAttachedImage();
         } else {
