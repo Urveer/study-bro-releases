@@ -378,11 +378,11 @@
 
       <div class="redirect-box" id="redirect-box">
         <div class="redirect-status">
-          <span id="status-label">Redirecting to app...</span>
-          <span class="countdown-timer" id="timer-text">3s</span>
+          <span id="status-label">Opening Study Bro app...</span>
+          <span class="countdown-timer" id="timer-text">Deep Link</span>
         </div>
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="progress-bar"></div>
+          <div class="progress-bar-fill" id="progress-bar" style="width:100%;"></div>
         </div>
       </div>
 
@@ -394,15 +394,6 @@
             <line x1="10" y1="14" x2="21" y2="3"></line>
           </svg>
           <span id="app-btn-text">Open Study Bro App</span>
-        </button>
-
-        <button id="open-local-btn" class="btn-secondary" style="display:none;" onclick="openLocalDevApp()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-            <line x1="8" y1="21" x2="16" y2="21"></line>
-            <line x1="12" y1="17" x2="12" y2="21"></line>
-          </svg>
-          <span>Return to Local Web Workspace (localhost:5173)</span>
         </button>
 
         <a href="index.html#downloads" class="btn-secondary">
@@ -455,86 +446,40 @@
     // Capture incoming auth tokens/hash
     const hash = window.location.hash || '';
     const search = window.location.search || '';
+    const hasAuthError = hash.includes('error=') || search.includes('error=');
 
-    // Check if recovery (password reset)
-    if (hash.includes('type=recovery') || search.includes('type=recovery')) {
-      document.getElementById('badge-title').innerText = 'Password Recovery';
-      document.getElementById('headline').innerText = 'Recovery Authorized';
-      document.getElementById('subtext').innerText = 'Your password reset token has been verified. Return to Study Bro to set your new password.';
-    }
-
-    // Check if local dev server (localhost:5173) is active on this device
-    let isLocalhostRunning = false;
-    const localBtn = document.getElementById('open-local-btn');
-
-    async function probeLocalDev() {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 1200);
-        await fetch('http://localhost:5173/favicon.ico', {
-          mode: 'no-cors',
-          signal: controller.signal,
-        });
-        clearTimeout(timeoutId);
-        isLocalhostRunning = true;
-        if (localBtn) localBtn.style.display = 'flex';
-        document.getElementById('status-label').innerText = 'Local workspace detected! Redirecting...';
-      } catch (_) {
-        isLocalhostRunning = false;
-      }
-    }
-    probeLocalDev();
-
-    // Trigger redirection to app
     function openStudyBroApp() {
-      // 1. Try custom desktop/mobile protocol
-      const targetDeepLink = 'studybro://auth-success' + hash;
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = targetDeepLink;
-      document.body.appendChild(iframe);
-      setTimeout(() => iframe.remove(), 2000);
-
-      // 2. Also try direct protocol trigger
+      const targetDeepLink = 'studybro://auth-success' + search + hash;
+      try {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = targetDeepLink;
+        document.body.appendChild(iframe);
+        setTimeout(() => iframe.remove(), 2000);
+      } catch (_) {}
       window.location.href = targetDeepLink;
-
-      // 3. If localhost is active, fallback after short interval
-      if (isLocalhostRunning) {
-        setTimeout(() => {
-          openLocalDevApp();
-        }, 1500);
-      }
     }
 
-    function openLocalDevApp() {
-      const redirectUrl = 'http://localhost:5173/?verified=true' + hash;
-      window.location.href = redirectUrl;
-    }
-
-    // Smooth 3-second automatic redirect countdown
-    let duration = 3000;
-    let elapsed = 0;
-    const intervalTime = 100;
-    const progressBar = document.getElementById('progress-bar');
-    const timerText = document.getElementById('timer-text');
-
-    const countdown = setInterval(() => {
-      elapsed += intervalTime;
-      const remainingSecs = Math.max(0, Math.ceil((duration - elapsed) / 1000));
-      const percent = Math.min(100, (elapsed / duration) * 100);
-
-      if (progressBar) progressBar.style.width = percent + '%';
-      if (timerText) timerText.innerText = remainingSecs + 's';
-
-      if (elapsed >= duration) {
-        clearInterval(countdown);
-        if (isLocalhostRunning) {
-          openLocalDevApp();
-        } else {
-          openStudyBroApp();
-        }
+    // Check if link returned an auth error (e.g., expired or invalid token)
+    if (hasAuthError) {
+      document.getElementById('badge-title').innerText = 'Verification Notice';
+      document.getElementById('headline').innerText = 'Link Invalid or Expired';
+      document.getElementById('subtext').innerText = 'This confirmation link has expired or was already used. Request a fresh confirmation link inside Study Bro.';
+      document.getElementById('status-label').innerText = 'Return to Study Bro to request a new link';
+      document.getElementById('timer-text').innerText = 'Action Needed';
+      const openBtn = document.getElementById('open-app-btn');
+      if (openBtn) openBtn.style.display = 'none';
+    } else {
+      if (hash.includes('type=recovery') || search.includes('type=recovery')) {
+        // Check if recovery (password reset)
+        document.getElementById('badge-title').innerText = 'Password Recovery';
+        document.getElementById('headline').innerText = 'Recovery Authorized';
+        document.getElementById('subtext').innerText = 'Your password reset link has been verified. Opening Study Bro so you can set your new password.';
       }
-    }, intervalTime);
+      setTimeout(() => {
+        openStudyBroApp();
+      }, 450);
+    }
   </script>
 </body>
 </html>
