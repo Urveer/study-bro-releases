@@ -1620,7 +1620,7 @@
     <section class="hero">
       <div class="version-tag">
         <span class="live-dot" aria-hidden="true"></span>
-        <span class="version-badge" id="version-tag-badge">v2.0.1</span>
+        <span class="version-badge" id="version-tag-badge">v2.1.0</span>
         <span class="version-sep" aria-hidden="true">•</span>
         <span id="version-text">Native Desktop &amp; Mobile Engine</span>
       </div>
@@ -2046,11 +2046,11 @@
 
     // Dynamic OS Auto-Detection & Platform State
     let currentReleaseAssets = {
-      version: 'v2.0.1',
-      exe: 'https://github.com/Urveer/study-bro-releases/releases/download/v2.0.1/Study-Bro-2.0.1-Windows-Setup.exe',
-      dmg: 'https://github.com/Urveer/study-bro-releases/releases/download/v2.0.1/Study.Bro_2.0.1_universal.dmg',
-      apk: 'https://github.com/Urveer/study-bro-releases/releases/download/v2.0.1/Study-Bro-2.0.1-Android.apk',
-      releaseUrl: 'https://github.com/Urveer/study-bro-releases/releases/tag/v2.0.1'
+      version: 'v2.1.0',
+      exe: 'https://github.com/Urveer/study-bro-releases/releases/download/v2.1.0/Study-Bro-2.1.0-Windows-Setup.exe',
+      dmg: 'https://github.com/Urveer/study-bro-releases/releases/download/v2.1.0/Study.Bro_2.1.0_universal.dmg',
+      apk: 'https://github.com/Urveer/study-bro-releases/releases/download/v2.1.0/Study-Bro-2.1.0-Android.apk',
+      releaseUrl: 'https://github.com/Urveer/study-bro-releases/releases/tag/v2.1.0'
     };
     let currentSelectedPlatform = 'windows';
 
@@ -2152,7 +2152,7 @@
         const res = await fetch('https://api.github.com/repos/Urveer/study-bro-releases/releases/latest');
         if (res.ok) {
           const data = await res.json();
-          currentReleaseAssets.version = data.tag_name || 'v2.0.1';
+          currentReleaseAssets.version = data.tag_name || 'v2.1.0';
           currentReleaseAssets.releaseUrl = data.html_url || 'https://github.com/Urveer/study-bro-releases/releases';
           const tagBadge = document.getElementById('version-tag-badge');
           if (tagBadge) tagBadge.innerText = currentReleaseAssets.version;
